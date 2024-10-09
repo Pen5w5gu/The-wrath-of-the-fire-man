@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     private Camera MainCamera;
     private bool isGround = false;
     public Rigidbody2D m_rb;
+    public SpriteRenderer spriteRenderer;
     public Animator anim;
     public float MoveSpeed;
     private Vector2 moveDirection;
@@ -41,6 +42,15 @@ public class Player : MonoBehaviour
         // Giới hạn vị trí X và Y sau khi tính toán vị trí mới
         float clampedX = Mathf.Clamp(newPosition.x, -screenHalfWidth, screenHalfWidth);
         float clampedY = Mathf.Clamp(newPosition.y, -screenHalfHeight, screenHalfHeight);
+
+        if (moveX < 0)
+        {
+            spriteRenderer.flipX = true; // Quay mặt sang trái
+        }
+        else if (moveX > 0)
+        {
+            spriteRenderer.flipX = false; // Quay mặt sang phải
+        }
 
         // Cập nhật vị trí nhân vật với giới hạn đã được áp dụng
         transform.position = new Vector3(clampedX, clampedY, transform.position.z);
