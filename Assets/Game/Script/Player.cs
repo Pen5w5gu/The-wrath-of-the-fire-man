@@ -36,12 +36,12 @@ public class Player : MonoBehaviour
         Vector3 newPosition = transform.position + new Vector3(moveX, 0, 0) * MoveSpeed * Time.deltaTime;
 
         // Tính toán giới hạn của màn hình
-        float screenHalfWidth = MainCamera.orthographicSize * MainCamera.aspect; // Bán kính chiều ngang
+        /*float screenHalfWidth = MainCamera.orthographicSize * MainCamera.aspect; // Bán kính chiều ngang
         float screenHalfHeight = MainCamera.orthographicSize; // Bán kính chiều dọc
 
         // Giới hạn vị trí X và Y sau khi tính toán vị trí mới
         float clampedX = Mathf.Clamp(newPosition.x, -screenHalfWidth, screenHalfWidth);
-        float clampedY = Mathf.Clamp(newPosition.y, -screenHalfHeight, screenHalfHeight);
+        float clampedY = Mathf.Clamp(newPosition.y, -screenHalfHeight, screenHalfHeight);*/
 
         if (moveX < 0)
         {
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         }
 
         // Cập nhật vị trí nhân vật với giới hạn đã được áp dụng
-        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+        transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
         moveDirection = new Vector2(moveX, 0).normalized;
 
         // Nhảy khi nhấn phím Space
