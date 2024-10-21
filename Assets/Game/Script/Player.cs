@@ -35,7 +35,13 @@ public class Player : MonoBehaviour
         // Tính toán vị trí mới dựa trên đầu vào
         Vector3 newPosition = transform.position + new Vector3(moveX, 0, 0) * MoveSpeed * Time.deltaTime;
 
-   
+        // Tính toán giới hạn của màn hình
+        float screenHalfWidth = MainCamera.orthographicSize * MainCamera.aspect; // Bán kính chiều ngang
+        float screenHalfHeight = MainCamera.orthographicSize; // Bán kính chiều dọc
+
+        // Giới hạn vị trí X và Y sau khi tính toán vị trí mới
+        float clampedX = Mathf.Clamp(newPosition.x, -screenHalfWidth, screenHalfWidth);
+        float clampedY = Mathf.Clamp(newPosition.y, -screenHalfHeight, screenHalfHeight);
 
         if (moveX < 0)
         {
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour
         }
 
         // Cập nhật vị trí nhân vật với giới hạn đã được áp dụng
-        transform.position = newPosition;
+        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
         moveDirection = new Vector2(moveX, 0).normalized;
 
         // Nhảy khi nhấn phím Space
@@ -75,16 +81,12 @@ public class Player : MonoBehaviour
 
    private void OnCollisionEnter2D(Collision2D col)
     {
-		if (col.gameObject.CompareTag("Deathzone"))
-		{
-            Time.timeScale = 0;
-            Debug.Log("Endgame");
-		}
-        if (col.gameObject.CompareTag("WinZone"))
+        /*if (col.gameObject.CompareTag("Enemy"))
         {
-            Time.timeScale = 0;
-            Debug.Log("Win");
-        }
+            m_gc.m_health = (m_gc.m_health - 1);
+            //m_gc.spawnKillEffect(col.gameObject.transform.position);
+            Destroy(col.gameObject);
+        }*/
         if (col.gameObject.CompareTag("Ground"))
         {
             isGround = true;
